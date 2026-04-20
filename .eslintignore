@@ -1,0 +1,10 @@
+node_modules/
+dist/
+build/
+coverage/
+.nx/
+apps/mobile/
+infra/
+docs/
+**/*.d.ts
+pnpm-lock.yaml

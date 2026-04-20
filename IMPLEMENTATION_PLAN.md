@@ -10,7 +10,7 @@ Tasks are consumed by Ralph Loop one at a time. Topmost unblocked task is picked
 - [x] T-E01-01.5 Governance scaffolding — commit 35f1f64 (PR #1)
 - [x] T-E01-02 pnpm workspace skeleton
 - [x] T-E01-02.5 Workspace package directories (9 apps + 6 libs under libs/@udpoc/ with stub package.json per D-03 section 6.2); pnpm install must resolve all 15 packages
-- [ ] T-E01-03 ESLint + Prettier + Husky + commitlint
+- [x] T-E01-03 ESLint + Prettier + Husky + commitlint
 - [ ] T-E01-04 CI PR workflow (lint/typecheck/test/coverage)
 - [ ] T-E01-05 CI deploy workflow (manual dispatch)
 - [ ] T-E01-06 Cognito user pools (customer + admin)

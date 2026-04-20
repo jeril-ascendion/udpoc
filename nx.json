@@ -9,10 +9,7 @@
       "!{projectRoot}/tsconfig.spec.json",
       "!{projectRoot}/vitest.config.[jt]s"
     ],
-    "sharedGlobals": [
-      "{workspaceRoot}/tsconfig.base.json",
-      "{workspaceRoot}/nx.json"
-    ]
+    "sharedGlobals": ["{workspaceRoot}/tsconfig.base.json", "{workspaceRoot}/nx.json"]
   },
   "targetDefaults": {
     "build": {

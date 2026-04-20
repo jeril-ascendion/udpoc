@@ -1,0 +1,27 @@
+node_modules/
+dist/
+build/
+coverage/
+.nx/
+pnpm-lock.yaml
+
+# Flutter
+apps/mobile/.dart_tool/
+apps/mobile/build/
+apps/mobile/.flutter-plugins
+apps/mobile/.flutter-plugins-dependencies
+
+# Terraform
+infra/**/.terraform/
+*.tfstate
+*.tfstate.*
+.terraform.lock.hcl
+
+# Binary / non-source
+docs/*.docx
+LICENSE
+
+# Markdown prose (prettier mangles identifiers like EXIT_SIGNAL by re-parsing underscores as emphasis).
+# Keep prose hand-formatted; prettier still formats code blocks inside JSON/YAML/TS.
+*.md
+
