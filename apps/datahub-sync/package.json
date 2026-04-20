@@ -1,0 +1,7 @@
+{
+  "name": "@udpoc/datahub-sync",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UDPOC DataHub Sync Service (E-10). Story S-10 approval propagation + mock DataHub.",
+  "license": "UNLICENSED"
+}

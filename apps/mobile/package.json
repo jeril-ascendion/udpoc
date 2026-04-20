@@ -1,0 +1,7 @@
+{
+  "name": "@udpoc/mobile",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UDPOC Flutter mobile app (E-02). Flutter sources live here; this package.json exists so the pnpm workspace can orchestrate tooling across all UDPOC projects uniformly.",
+  "license": "UNLICENSED"
+}

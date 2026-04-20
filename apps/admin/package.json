@@ -1,0 +1,7 @@
+{
+  "name": "@udpoc/admin",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UDPOC admin React app (E-12).",
+  "license": "UNLICENSED"
+}
