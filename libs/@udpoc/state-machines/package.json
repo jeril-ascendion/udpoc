@@ -1,7 +1,0 @@
-{
-  "name": "@udpoc/state-machines",
-  "version": "0.0.0",
-  "private": true,
-  "description": "XState chart library for UDPOC case + workflow state machines (T-E03-06).",
-  "license": "UNLICENSED"
-}
