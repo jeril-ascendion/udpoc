@@ -1,0 +1,6 @@
+{
+  "name": "@udpoc/liveness-service",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Provider-abstracted liveness (D-03 §10.7) — stub"
+}

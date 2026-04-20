@@ -1,0 +1,6 @@
+{
+  "name": "@udpoc/scheduler",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Periodic review scheduler (D-03 §10.11) — stub"
+}

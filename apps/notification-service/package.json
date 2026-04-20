@@ -1,0 +1,6 @@
+{
+  "name": "@udpoc/notification-service",
+  "version": "0.0.0",
+  "private": true,
+  "description": "SMS/email/push fan-out (D-03 §10.9) — stub"
+}

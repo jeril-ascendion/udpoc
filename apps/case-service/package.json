@@ -1,0 +1,6 @@
+{
+  "name": "@udpoc/case-service",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Case + workflow Node service (D-03 §10.3; canary in T-E03-07) — stub"
+}
