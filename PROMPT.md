@@ -2,24 +2,27 @@
 
 You are working on the UnionDigital Customer Record Update (Re-KYC) POC.
 Context is fresh. Begin by reading these files, in this order:
-  1. CLAUDE.md (repo conventions, stack, non-negotiables)
+  1. CLAUDE.md or CLAUDE.original.md (repo conventions, stack, non-negotiables)
   2. IMPLEMENTATION_PLAN.md (your task backlog)
   3. AGENTS.md (conventions learned by previous iterations)
 
-Pick ONE unchecked task from IMPLEMENTATION_PLAN.md, preferring the topmost unblocked task.
+Pick ONE unchecked and unblocked task from IMPLEMENTATION_PLAN.md, preferring the topmost task. The chosen task has an id like T-Exx-nn.
 
 For that task:
-  a. Write the failing test(s) named exactly as specified in the task Acceptance Criteria. Run them. They must fail for the right reason.
-  b. Write the minimum production code that makes them pass. Run them. They must pass.
-  c. Refactor if needed. Tests must stay green.
-  d. Update IMPLEMENTATION_PLAN.md to mark the task done. Add any new sub-tasks you discovered as unchecked items.
-  e. If you discovered a convention worth teaching future iterations, append it to AGENTS.md (max 2 lines).
-  f. Commit with a Conventional Commit message scoped to the task id.
-  g. Print EXIT_SIGNAL: TASK_DONE_<task-id> on the last line.
+  1. Before any other action, run git status. If you are on main, create and switch to a branch named feat/E-nn/T-Exx-nn-short-slug where nn matches the task id. If you are already on a feature branch from a previous partial attempt at the same task, continue on it. Never work directly on main.
+  2. Write the failing test(s) named exactly as specified in the task Acceptance Criteria. Run them. They must fail for the right reason (not a syntax error or missing import).
+  3. Write the minimum production code that makes the tests pass. Run them. They must pass.
+  4. Refactor if needed. Tests must stay green at every step.
+  5. Update IMPLEMENTATION_PLAN.md to mark the task done. If you discovered new sub-tasks, add them as unchecked items under the same EPIC.
+  6. If you discovered a convention worth teaching future iterations, append a single two-line entry to AGENTS.md with date, scope, and the convention. Do not prune old entries.
+  7. Stage and commit with a Conventional Commit message scoped to the task id. Example: feat(T-E04-02): BR-001 ID-expiry rule.
+  8. Push the branch to origin. Do not merge, do not open a PR, do not touch main.
+  9. Print EXIT_SIGNAL: TASK_DONE_<task-id> as the last line of your output.
 
 Hard constraints:
-  - No code without a failing test first. Ever.
+  - No production code without a failing test first. Ever.
   - Never edit more than one task worth of files.
   - Never commit failing tests.
-  - If the task is blocked by external dependency, mark it blocked in IMPLEMENTATION_PLAN.md with the reason, and exit with EXIT_SIGNAL: TASK_BLOCKED_<task-id>.
   - Never push to main directly. Always use feat/E-nn/T-Exx-nn-slug branches.
+  - If the task is blocked by external dependency you cannot resolve, mark it blocked in IMPLEMENTATION_PLAN.md with the reason, commit the plan change on the current branch (creating one if necessary), push, and exit with EXIT_SIGNAL: TASK_BLOCKED_<task-id>.
+  - If the task is scaffolding with no ACs (for example T-E01-xx tasks per D-03 section 10.1), the TDD step is replaced by a verification step: after writing the files, run whatever command proves the scaffolding is correct (for example pnpm install or terraform validate), and only commit if that command exits zero.
