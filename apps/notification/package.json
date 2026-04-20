@@ -1,0 +1,7 @@
+{
+  "name": "@udpoc/notification",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UDPOC Notification Service (E-09). Story S-12 template registry + channel dispatch.",
+  "license": "UNLICENSED"
+}

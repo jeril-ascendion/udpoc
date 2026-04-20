@@ -1,0 +1,7 @@
+{
+  "name": "@udpoc/eligibility",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UDPOC Eligibility Service (E-04). Hosts BR-001/003/005/006 rule engine plus the E-11 scheduler Lambda that picks due customers via EventBridge cron.",
+  "license": "UNLICENSED"
+}

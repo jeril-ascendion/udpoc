@@ -1,0 +1,7 @@
+{
+  "name": "@udpoc/shared-aws",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Shared AWS SDK wrappers (T-E03-03).",
+  "license": "UNLICENSED"
+}
