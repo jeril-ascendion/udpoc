@@ -12,3 +12,4 @@ This file is appended to by Ralph Loop iterations. Each entry should be one or t
   Always cross-check `git log --oneline` for the task id before starting; if merged, close the plan entry with the commit SHA instead of redoing the work.
 - [2026-04-20] [workspace] Workspace packages live at `apps/*` and `libs/@udpoc/*` (scoped prefix). pnpm-workspace.yaml globs must match this layout; do not flatten libs.
 - [2026-04-20] [scaffolding] Scaffolding tasks must be verified with `pnpm ls --recursive` (not just `pnpm install`): exit-zero on an empty workspace is insufficient. Confirm every canonical package in docs/canonical-package-names.md appears in the listing.
+- [2026-04-20] [prettier] `*.md` is in `.prettierignore` on purpose: Prettier re-parses underscores as emphasis and mangles identifiers like `EXIT_SIGNAL` in prose. Do not remove — format markdown by hand.

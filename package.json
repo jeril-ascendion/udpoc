@@ -10,13 +10,26 @@
     "pnpm": "9.12.0"
   },
   "scripts": {
+    "prepare": "husky",
     "build": "nx run-many --target=build --all",
     "test": "nx run-many --target=test --all",
-    "lint": "nx run-many --target=lint --all",
-    "typecheck": "nx run-many --target=typecheck --all"
+    "lint": "eslint . --ext .js,.cjs,.mjs,.ts,.tsx --max-warnings 0",
+    "lint:fix": "eslint . --ext .js,.cjs,.mjs,.ts,.tsx --fix",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "nx run-many --target=typecheck --all",
+    "commitlint": "commitlint --edit"
   },
   "devDependencies": {
+    "@commitlint/cli": "19.6.1",
+    "@commitlint/config-conventional": "19.6.0",
+    "@typescript-eslint/eslint-plugin": "7.18.0",
+    "@typescript-eslint/parser": "7.18.0",
+    "eslint": "8.57.1",
+    "eslint-config-prettier": "9.1.0",
+    "husky": "9.1.7",
     "nx": "19.8.14",
+    "prettier": "3.3.3",
     "typescript": "5.5.4"
   }
 }
