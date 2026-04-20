@@ -8,4 +8,5 @@ This file is appended to by Ralph Loop iterations. Each entry should be one or t
 
 ## Current entries
 
-(empty, will grow as iterations run)
+- [2026-04-20] [plan] A task marked "in flight" in IMPLEMENTATION_PLAN.md may already be merged on main.
+  Always cross-check `git log --oneline` for the task id before starting; if merged, close the plan entry with the commit SHA instead of redoing the work.
