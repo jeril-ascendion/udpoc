@@ -11,7 +11,7 @@ Tasks are consumed by Ralph Loop one at a time. Topmost unblocked task is picked
 - [x] T-E01-02 pnpm workspace skeleton
 - [x] T-E01-02.5 Workspace package directories (9 apps + 6 libs under libs/@udpoc/ with stub package.json per D-03 section 6.2); pnpm install must resolve all 15 packages
 - [x] T-E01-03 ESLint + Prettier + Husky + commitlint
-- [blocked] T-E01-04 CI PR workflow (lint/typecheck/test/coverage) — workflow YAML authored and verified locally (pnpm install/lint/typecheck/test all exit 0 against the file); `git push` refused because the OAuth App authorising the git remote lacks the `workflow` scope. Unblock: run `gh auth refresh -h github.com -s workflow` (or re-authorise the OAuth App with `workflow` scope), then re-commit `.github/workflows/pr.yml` (currently untracked on this branch) and push.
+- [ ] T-E01-04 CI PR workflow (lint/typecheck/test/coverage) — workflow YAML authored and verified locally (pnpm install/lint/typecheck/test all exit 0 against the file); `git push` refused because the OAuth App authorising the git remote lacks the `workflow` scope. Unblock: run `gh auth refresh -h github.com -s workflow` (or re-authorise the OAuth App with `workflow` scope), then re-commit `.github/workflows/pr.yml` (currently untracked on this branch) and push.
 - [ ] T-E01-05 CI deploy workflow (manual dispatch)
 - [ ] T-E01-06 Cognito user pools (customer + admin)
 - [ ] T-E01-07 API Gateway custom domain api.udpoc.com
