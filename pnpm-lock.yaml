@@ -15,6 +15,36 @@ importers:
         specifier: 5.5.4
         version: 5.5.4
 
+  apps/admin-react: {}
+
+  apps/case-service: {}
+
+  apps/datahub-sync: {}
+
+  apps/document-service: {}
+
+  apps/eligibility-service: {}
+
+  apps/liveness-service: {}
+
+  apps/mobile: {}
+
+  apps/notification-service: {}
+
+  apps/scheduler: {}
+
+  libs/@udpoc/shared-auth: {}
+
+  libs/@udpoc/shared-aws: {}
+
+  libs/@udpoc/shared-observability: {}
+
+  libs/@udpoc/shared-testing: {}
+
+  libs/@udpoc/shared-types: {}
+
+  libs/@udpoc/state-machines: {}
+
 packages:
 
   '@emnapi/core@1.10.0':
