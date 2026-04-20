@@ -1,0 +1,22 @@
+{
+  "name": "@udpoc/root",
+  "version": "0.0.0",
+  "private": true,
+  "description": "UnionDigital Customer Record Update (Re-KYC) POC monorepo",
+  "license": "UNLICENSED",
+  "packageManager": "pnpm@9.12.0",
+  "engines": {
+    "node": "20.14.0",
+    "pnpm": "9.12.0"
+  },
+  "scripts": {
+    "build": "nx run-many --target=build --all",
+    "test": "nx run-many --target=test --all",
+    "lint": "nx run-many --target=lint --all",
+    "typecheck": "nx run-many --target=typecheck --all"
+  },
+  "devDependencies": {
+    "nx": "19.8.14",
+    "typescript": "5.5.4"
+  }
+}

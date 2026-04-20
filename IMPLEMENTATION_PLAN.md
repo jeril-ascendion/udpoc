@@ -8,7 +8,7 @@ Tasks are consumed by Ralph Loop one at a time. Topmost unblocked task is picked
 
 - [x] T-E01-01 Bootstrap Terraform backend (S3 + DDB + KMS) — commit 98e28de
 - [x] T-E01-01.5 Governance scaffolding — commit 35f1f64 (PR #1)
-- [ ] T-E01-02 pnpm workspace skeleton
+- [x] T-E01-02 pnpm workspace skeleton
 - [ ] T-E01-03 ESLint + Prettier + Husky + commitlint
 - [ ] T-E01-04 CI PR workflow (lint/typecheck/test/coverage)
 - [ ] T-E01-05 CI deploy workflow (manual dispatch)

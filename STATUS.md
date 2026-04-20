@@ -12,7 +12,7 @@ Last updated: 2026-04-20
 
 | EPIC | Name | Status | Notes |
 |------|------|--------|-------|
-| E-01 | Platform Foundations | In progress | T-E01-01, T-E01-01.5 done; T-E01-02..14 pending |
+| E-01 | Platform Foundations | In progress | T-E01-01, T-E01-01.5, T-E01-02 done; T-E01-03..14 pending |
 | E-02 | Mobile App Scaffold | Not started | Blocked on T-E01-06 |
 | E-03 | Backend Services Scaffold | Not started | Blocked on T-E01-09/10/11 |
 | E-04 | Eligibility Service | Not started | Depends on E-03 |
@@ -36,6 +36,7 @@ None.
 
 ## Recent milestones
 
+- 2026-04-20: T-E01-02 complete, pnpm workspace skeleton (package.json, pnpm-workspace.yaml, nx.json, tsconfig.base.json)
 - 2026-04-20: T-E01-01.5 complete, governance scaffolding (README/STATUS/AGENTS/PROMPT/CLAUDE/IMPLEMENTATION_PLAN/CODEOWNERS/PR template)
 - 2026-04-20: T-E01-01 complete, Terraform backend deployed to AWS 852973339602 / ap-southeast-1
 - 2026-04-20: Master Plan sign-off (Section 8 decisions closed)
