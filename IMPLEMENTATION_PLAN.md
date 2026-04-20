@@ -11,7 +11,7 @@ Tasks are consumed by Ralph Loop one at a time. Topmost unblocked task is picked
 - [x] T-E01-02 pnpm workspace skeleton
 - [x] T-E01-02.5 Workspace package directories (9 apps + 6 libs under libs/@udpoc/ with stub package.json per D-03 section 6.2); pnpm install must resolve all 15 packages
 - [x] T-E01-03 ESLint + Prettier + Husky + commitlint
-- [ ] T-E01-04 CI PR workflow (lint/typecheck/test/coverage)
+- [x] T-E01-04 CI PR workflow (lint/typecheck/test/coverage) — PR #18 (PR #17 was an accidental duplicate, same diff); CI verify job ran green on the PR itself
 - [ ] T-E01-05 CI deploy workflow (manual dispatch)
 - [ ] T-E01-06 Cognito user pools (customer + admin)
 - [ ] T-E01-07 API Gateway custom domain api.udpoc.com
