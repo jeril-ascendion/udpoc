@@ -1,0 +1,13 @@
+# Template for all non-bootstrap Terraform modules.
+# Copy this into each module dir as backend.tf, and set a unique `key`.
+
+terraform {
+  backend "s3" {
+    bucket         = "udpoc-tfstate-cda8bf"
+    key            = "CHANGE_ME/terraform.tfstate"   # e.g. "envs/dev/terraform.tfstate"
+    region         = "ap-southeast-1"
+    dynamodb_table = "udpoc-tflocks"
+    encrypt        = true
+    kms_key_id     = "alias/udpoc-tfstate"
+  }
+}
