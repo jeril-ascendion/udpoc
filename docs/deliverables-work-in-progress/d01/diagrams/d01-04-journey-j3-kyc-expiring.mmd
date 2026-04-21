@@ -1,0 +1,31 @@
+flowchart TD
+  TRIGGER["Nightly scheduled job<br/>evaluates customers"]
+  LOOKUP["Look up<br/>Last_KYC_Approved_Timestamp<br/>+ Risk_Profile_Score<br/>(DataHub + Onboarding service)"]
+  RISK{"Risk profile?"}
+
+  HIGH_DUE{"Now - Last_KYC ≥ 1yr<br/>OR event-driven alert?"}
+  NORM_DUE{"Now - Last_KYC ≥ 2yr<br/>OR event-driven alert?"}
+  LOW_DUE{"Now - Last_KYC ≥ 3yr<br/>OR event-driven alert?"}
+
+  CREATE["Create Case<br/>(reason: KYC_EXPIRING)"]
+  NOTIFY["Send T-01 'Update required' notification<br/>(SMS + Email + Push)"]
+  LOGIN["Customer logs in"]
+  MODAL["S-M-03 KYC expiring modal<br/>(non-dismissable)"]
+  CRU["CRU flow per J-1"]
+  NOOP["No action<br/>(still within window)"]
+
+  TRIGGER --> LOOKUP
+  LOOKUP --> RISK
+  RISK -->|High| HIGH_DUE
+  RISK -->|Normal| NORM_DUE
+  RISK -->|Low| LOW_DUE
+  HIGH_DUE -->|Yes| CREATE
+  HIGH_DUE -->|No| NOOP
+  NORM_DUE -->|Yes| CREATE
+  NORM_DUE -->|No| NOOP
+  LOW_DUE -->|Yes| CREATE
+  LOW_DUE -->|No| NOOP
+  CREATE --> NOTIFY
+  NOTIFY --> LOGIN
+  LOGIN --> MODAL
+  MODAL --> CRU

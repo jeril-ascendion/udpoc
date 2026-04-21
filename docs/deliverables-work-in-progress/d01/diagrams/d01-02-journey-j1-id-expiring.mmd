@@ -1,0 +1,39 @@
+flowchart TD
+  START["Customer logs in to UD mobile app"]
+  CHECK{"Is account status<br/>Regular AND<br/>ID not expired<br/>AND KYC not expired?"}
+  PASSTHROUGH["Normal app usage"]
+
+  subgraph modal["Modal layer (non-dismissable)"]
+    MODAL["Show relevant modal:<br/>S-M-01 ID expiring, S-M-02 ID expired,<br/>S-M-03 KYC expiring, etc."]
+  end
+
+  AUTH["Re-authenticate:<br/>Face match OR SMS OTP"]
+  PREFILL["Pre-fill existing data<br/>from DataHub"]
+  PERSONAL["Update Personal Info<br/>(Name, DOB, Mobile read-only,<br/>Address via PSGC)"]
+  EMPLOY["Update Employment<br/>(Employment status →<br/>Occupation filter)"]
+  SOF["Update Source of Funds<br/>+ Account Purpose<br/>(derived from employment)"]
+  DOCS["Upload supporting docs<br/>(ID, SEC/DTI if self-employed)<br/>max 5 docs, 10MB each"]
+  LIVENESS["Liveness re-verification<br/>(Onfido + KnownFaces)"]
+  SUBMIT["Submit for review"]
+
+  REVIEW["Appian Maker-Checker<br/>(up to 3 cycles)"]
+  DECIDE{"Approve?"}
+  APPROVED["Case APPROVED<br/>→ DataHub sync<br/>→ Account status = Active<br/>→ Notifications fan-out"]
+  REJECTED["Case REJECTED<br/>→ Customer notified with reason<br/>→ Re-submission allowed"]
+
+  START --> CHECK
+  CHECK -->|Yes| PASSTHROUGH
+  CHECK -->|No| MODAL
+  MODAL --> AUTH
+  AUTH --> PREFILL
+  PREFILL --> PERSONAL
+  PERSONAL --> EMPLOY
+  EMPLOY --> SOF
+  SOF --> DOCS
+  DOCS --> LIVENESS
+  LIVENESS --> SUBMIT
+  SUBMIT --> REVIEW
+  REVIEW --> DECIDE
+  DECIDE -->|Yes| APPROVED
+  DECIDE -->|No| REJECTED
+  REJECTED -.->|resubmit<br/>(cycle ≤ 3)| PERSONAL
