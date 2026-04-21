@@ -9,7 +9,7 @@ Context is fresh. Begin by reading these files, in this order:
 Pick ONE unchecked and unblocked task from IMPLEMENTATION_PLAN.md, preferring the topmost task. The chosen task has an id like T-Exx-nn.
 
 For that task:
-  1. Before any other action, run git status. If you are on main, create and switch to a branch named feat/E-nn/T-Exx-nn-short-slug where nn matches the task id. If you are already on a feature branch from a previous partial attempt at the same task, continue on it. Never work directly on main.
+  1. Before any other action: (a) run git rev-parse --abbrev-ref HEAD to read the current branch. If the result is anything other than main (including stale chore/ or feat/ branches from earlier attempts), STOP, print the actual branch name, and exit immediately with EXIT_SIGNAL: TASK_BLOCKED_start_not_on_main. (b) Run git pull --ff-only origin main to ensure the local main is up to date with origin. (c) Now create and switch to a branch named feat/E-nn/T-Exx-nn-short-slug where nn matches the task id from IMPLEMENTATION_PLAN.md. (d) Confirm with git status that the working tree is clean before any file changes. Never work directly on main.
   2. Write the failing test(s) named exactly as specified in the task Acceptance Criteria. Run them. They must fail for the right reason (not a syntax error or missing import).
   3. Write the minimum production code that makes the tests pass. Run them. They must pass.
   4. Refactor if needed. Tests must stay green at every step.
