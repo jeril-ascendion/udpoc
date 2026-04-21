@@ -1,6 +1,6 @@
 output "oidc_provider_arn" {
-  description = "ARN of the GitHub Actions OIDC provider."
-  value       = aws_iam_openid_connect_provider.github.arn
+  description = "ARN of the GitHub Actions OIDC provider (not owned by this module; looked up as a data source)."
+  value       = data.aws_iam_openid_connect_provider.github.arn
 }
 
 output "deploy_role_arn" {

@@ -4,15 +4,16 @@ data "aws_partition" "current" {}
 
 data "aws_region" "current" {}
 
-# GitHub's OIDC provider thumbprints rotate. Pull them dynamically rather than hardcoding.
-data "tls_certificate" "github" {
+# The GitHub Actions OIDC provider is account-level, shared infrastructure.
+# In this POC account (852973339602) it is owned by another team (it
+# predates this POC; CreateDate 2026-03-13). This module does NOT manage
+# the provider; it looks it up as a data source and only manages the role,
+# policy, and attachment that are specific to udpoc.
+#
+# See AGENTS.md "AWS account blast-radius" for the policy that drove this
+# decision.
+data "aws_iam_openid_connect_provider" "github" {
   url = "https://token.actions.githubusercontent.com"
-}
-
-resource "aws_iam_openid_connect_provider" "github" {
-  url             = "https://token.actions.githubusercontent.com"
-  client_id_list  = ["sts.amazonaws.com"]
-  thumbprint_list = [for cert in data.tls_certificate.github.certificates : cert.sha1_fingerprint]
 }
 
 data "aws_iam_policy_document" "assume_role" {
@@ -22,7 +23,7 @@ data "aws_iam_policy_document" "assume_role" {
 
     principals {
       type        = "Federated"
-      identifiers = [aws_iam_openid_connect_provider.github.arn]
+      identifiers = [data.aws_iam_openid_connect_provider.github.arn]
     }
 
     condition {
@@ -41,9 +42,9 @@ data "aws_iam_policy_document" "assume_role" {
 }
 
 resource "aws_iam_role" "deploy" {
-  name               = var.role_name
-  description        = "Assumed by GitHub Actions deploy workflow via OIDC. Trusts ${var.github_org}/${var.github_repo} on branch ${var.trusted_branch}."
-  assume_role_policy = data.aws_iam_policy_document.assume_role.json
+  name                 = var.role_name
+  description          = "Assumed by GitHub Actions deploy workflow via OIDC. Trusts ${var.github_org}/${var.github_repo} on branch ${var.trusted_branch}."
+  assume_role_policy   = data.aws_iam_policy_document.assume_role.json
   max_session_duration = 3600
 }
 
