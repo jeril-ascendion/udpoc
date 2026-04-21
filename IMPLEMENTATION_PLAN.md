@@ -12,7 +12,9 @@ Tasks are consumed by Ralph Loop one at a time. Topmost unblocked task is picked
 - [x] T-E01-02.5 Workspace package directories (9 apps + 6 libs under libs/@udpoc/ with stub package.json per D-03 section 6.2); pnpm install must resolve all 15 packages
 - [x] T-E01-03 ESLint + Prettier + Husky + commitlint
 - [x] T-E01-04 CI PR workflow (lint/typecheck/test/coverage) — PR #18 (PR #17 was an accidental duplicate, same diff); CI verify job ran green on the PR itself
-- [ ] T-E01-05 CI deploy workflow (manual dispatch)
+- [ ] T-E01-05 CI deploy workflow + OIDC bootstrap (MUST deliver BOTH sub-tasks in the same PR, not just one)
+  - [ ] T-E01-05.sub1 Terraform at infra/iam-oidc-bootstrap/ — OIDC IdP + IAM role trusting repo jeril-ascendion/udpoc main branch. State key infra/iam-oidc-bootstrap/terraform.tfstate in existing udpoc-tfstate-cda8bf bucket. Permissions policy starts narrow: s3:GetObject+ListBucket on udpoc-tfstate-cda8bf; dynamodb:GetItem+PutItem+DeleteItem on udpoc-tflocks. Designed for one-time MANUAL apply (chicken-and-egg: the workflow we are scaffolding IS what would apply it). Verification: terraform init + terraform validate must exit 0. DO NOT RUN terraform apply.
+  - [ ] T-E01-05.sub2 .github/workflows/deploy.yml — workflow_dispatch trigger with inputs for module path and action (plan or apply). permissions: id-token write + contents read. Uses aws-actions/configure-aws-credentials@v4 with role-to-assume hardcoded as arn:aws:iam::852973339602:role/github-oidc-deploy (the role T-E01-05.sub1 creates). terraform init + plan always; apply gated by input == "apply" AND by GitHub Actions environment protection requiring manual approval. Do NOT invent directory structures like infra/envs/dev/ — reference the ACTUAL directories that exist in infra/ (currently infra/bootstrap/ and infra/iam-oidc-bootstrap/ after sub1).
 - [ ] T-E01-06 Cognito user pools (customer + admin)
 - [ ] T-E01-07 API Gateway custom domain api.udpoc.com
 - [ ] T-E01-08 CloudFront for app.udpoc.com + demo.udpoc.com
