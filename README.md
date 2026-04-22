@@ -23,7 +23,7 @@ Mobile (Flutter), backend services (Node.js/Fastify), admin portal (React + Appi
 
 ## Infrastructure
 
-- AWS Account 852973339602 (Ascendion sandbox, confirmed for POC use)
+- AWS Account 852973339602 (shared production account; see AGENTS.md "AWS account blast-radius" and ADR-0006)
 - Region ap-southeast-1 (Singapore)
 - Terraform state bucket: udpoc-tfstate-cda8bf
 - Terraform lock table: udpoc-tflocks
