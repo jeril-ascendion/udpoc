@@ -1,0 +1,20 @@
+flowchart TD
+  START["Admin triggers manual re-KYC<br/>OR nightly scheduler picks customer"]
+  EXISTING{"Existing open case<br/>for this customer?"}
+  CREATE["Create new Case"]
+  SKIP["BR-006: do NOT create duplicate<br/>(log event; notify ops)"]
+  RESTRICT{"Account already<br/>in Restricted status?"}
+  OPEN_CHECK{"Case reason =<br/>RESTRICTED_ACCOUNT<br/>on the open case?"}
+  ATTACH["Attach new trigger reason<br/>to existing case; do not create"]
+  PROCEED["Proceed with CRU flow"]
+  BLOCK["Show customer S-M-08<br/>'Update in progress' with<br/>reference to existing case"]
+
+  START --> EXISTING
+  EXISTING -->|No| RESTRICT
+  EXISTING -->|Yes| OPEN_CHECK
+  OPEN_CHECK -->|Yes| BLOCK
+  OPEN_CHECK -->|No| ATTACH
+  RESTRICT -->|No| CREATE
+  RESTRICT -->|Yes| CREATE
+  CREATE --> PROCEED
+  ATTACH --> PROCEED

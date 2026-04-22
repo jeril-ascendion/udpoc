@@ -1,0 +1,40 @@
+flowchart LR
+  subgraph external["External parties"]
+    CUST["UDB retail customer<br/>(mobile app)"]
+    MAKER["Maker / CDD Ops"]
+    CHECKER["Checker / CDD Ops Lead"]
+  end
+  subgraph CRU["Customer Record Update (Re-KYC)"]
+    MOBILE["UD Mobile App"]
+    API["CRU Backend Services"]
+    WORKFLOW["Appian Workflow"]
+    ADMIN["Admin Portal"]
+  end
+  subgraph bank["UDB enterprise systems"]
+    DATAHUB["DataHub<br/>(customer master)"]
+    TM["Thought Machine<br/>(Deposit / CBS)"]
+    ONBOARDING["Onboarding Service"]
+  end
+  subgraph vendors["Third parties"]
+    LIVENESS["Onfido + KnownFaces<br/>(Liveness)"]
+    AMLWATCH["AML / sanctions watchlists"]
+    PSGC["PSGC<br/>(Philippine address authority)"]
+    NOTIFY["SES / SNS-SMS / FCM"]
+  end
+  subgraph regs["Regulatory authorities"]
+    BSP["BSP / AMLA / PDIC"]
+  end
+  CUST -->|re-KYC journey| MOBILE
+  MOBILE -->|API| API
+  API -->|reads / writes| DATAHUB
+  API -->|reads| TM
+  API -->|reads / writes| ONBOARDING
+  API -->|liveness| LIVENESS
+  API -->|sanction check| AMLWATCH
+  API -->|address validation| PSGC
+  API -->|messaging| NOTIFY
+  API -->|state transitions| WORKFLOW
+  WORKFLOW --> ADMIN
+  MAKER --> ADMIN
+  CHECKER --> ADMIN
+  BSP -.->|M-2020-003; Circular 706;<br/>Circular 1083; PDIC| CRU

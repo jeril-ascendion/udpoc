@@ -1,0 +1,29 @@
+stateDiagram-v2
+  [*] --> Draft : Case created by trigger<br/>(scheduler / risk event /<br/>admin manual / login detection)
+
+  Draft --> InProgress : Customer authenticates<br/>and starts CRU flow
+  Draft --> Expired : Customer does not start<br/>within 30 days
+
+  InProgress --> Submitted : Customer clicks Submit<br/>with all required data
+  InProgress --> Abandoned : No activity for 24h<br/>(retains partial progress,<br/>resumable via FR-030)
+
+  Submitted --> UnderMakerReview : Appian claims case<br/>(AC-S09-02)
+  UnderMakerReview --> PendingChecker : Maker forwards<br/>(AC-S09-03)
+  UnderMakerReview --> RejectedByMaker : Maker rejects<br/>with reason
+
+  PendingChecker --> Approved : Checker approves<br/>(AC-S09-05)
+  PendingChecker --> Rejected : Checker rejects<br/>with reason
+  PendingChecker --> UnderMakerReview : Checker returns<br/>(cycle ≤ 3)
+
+  Rejected --> InProgress : Customer re-submits<br/>(cycle ≤ 3)
+  RejectedByMaker --> InProgress : Customer re-submits<br/>(cycle ≤ 3)
+
+  Rejected --> Escalated : Cycle 4 reached<br/>(AC-S09-07)
+  RejectedByMaker --> Escalated : Cycle 4 reached
+  Escalated --> Approved : Manager approves
+  Escalated --> Closed : Manager closes<br/>(account remains Restricted)
+
+  Approved --> [*] : DataHub sync fired;<br/>notifications sent;<br/>account status derives<br/>from Thought Machine
+  Abandoned --> [*] : Closed by sweeper after N days
+  Expired --> [*] : Closed
+  Closed --> [*]

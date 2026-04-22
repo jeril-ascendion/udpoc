@@ -1,0 +1,29 @@
+flowchart TD
+  LOGIN["Customer logs in"]
+  STATUS{"Account status from<br/>Thought Machine?"}
+  NORMAL["Normal app usage"]
+
+  subgraph restricted_block["Restricted / Dormant / Dormant-Charging path"]
+    MOD_R["S-M-08 Restricted modal<br/>persistent, non-dismissable,<br/>feature lock ON"]
+    MOD_D["S-M-10 Dormant modal<br/>single CTA 'Reactivate'"]
+    MOD_DC["S-M-11 Dormant-Charging modal<br/>dual CTA: Reactivate OR<br/>Pay Charges"]
+  end
+
+  PAY["Pay dormancy charges<br/>(out of scope for CRU)"]
+  CRU["CRU flow<br/>(as per J-1)"]
+
+  APPROVED["Maker-Checker APPROVED<br/>+ account status derives<br/>from Thought Machine"]
+  ACTIVATE["Account returns to Regular<br/>only after customer performs<br/>≥1 transaction post-approval"]
+
+  LOGIN --> STATUS
+  STATUS -->|Regular + KYC valid| NORMAL
+  STATUS -->|Restricted| MOD_R
+  STATUS -->|Dormant| MOD_D
+  STATUS -->|Dormant-Charging| MOD_DC
+  MOD_R --> CRU
+  MOD_D --> CRU
+  MOD_DC -->|Reactivate| CRU
+  MOD_DC -->|Pay Charges first| PAY
+  PAY --> CRU
+  CRU --> APPROVED
+  APPROVED --> ACTIVATE
