@@ -36,4 +36,4 @@ flowchart TD
   REVIEW --> DECIDE
   DECIDE -->|Yes| APPROVED
   DECIDE -->|No| REJECTED
-  REJECTED -.->|resubmit<br/>(cycle ≤ 3)| PERSONAL
+  REJECTED -.->|"resubmit<br/>(cycle &le; 3)"| PERSONAL

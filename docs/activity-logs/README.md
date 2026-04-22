@@ -37,30 +37,42 @@ by reference to their file path. Keep to one or two paragraphs.
 
 ## How entries are produced
 
-### From a Claude chat session (claude.ai)
+### Recommended: from a Ralph session via the wrapper (automatic)
 
-At the end of any substantive session, Claude emits a candidate entry in the format above. The user copies the block and appends it to the correct file:
+The `scripts/run-ralph.sh` wrapper launches Claude Code under session capture, runs the extractor on the captured log when the session ends, auto-routes the entry to the correct EPIC file based on the task id in EXIT_SIGNAL, and prompts before appending.
 
 ```bash
-# Append to the correct EPIC file
-cat >> docs/activity-logs/E-01.txt <<'BLOCK'
-<paste the block>
-BLOCK
+./scripts/run-ralph.sh T-E01-06
 ```
 
-### From a Ralph Loop session
+The argument is only used in the log filename for later grep-ability. The actual task Ralph picks up comes from IMPLEMENTATION_PLAN.md, not from this hint. After the session ends, the script:
 
-Ralph captures its own session via `script`, producing a raw log at `.ralph/logs/iter-TIMESTAMP-TASK.log`. After the session ends:
+1. Extracts a structured entry from the raw log
+2. Parses the task id from EXIT_SIGNAL to determine the target EPIC file
+3. Previews the entry, asks for confirmation, appends on approval
+4. Retains the raw log at `.ralph/logs/iter-TIMESTAMP-HINT.log` regardless
+
+Caveman-enabled sessions work identically — Caveman runs inside Claude Code and does not change the capture mechanism. The extractor picks up the `[CAVEMAN:FULL]` / `[CAVEMAN:ULTRA]` statusline badges and records the active mode in the `CAVEMAN:` field.
+
+### Manual: from a raw log file (when the wrapper is not appropriate)
+
+If a session was captured outside the wrapper, or an existing raw log needs to be retroactively extracted:
 
 ```bash
 ./scripts/ralph-log-to-activity.sh .ralph/logs/iter-20260422-143000-T-E01-06.log >> docs/activity-logs/E-01.txt
 ```
 
-The script strips ANSI codes, extracts metadata (branch, commits, EXIT_SIGNAL, Caveman mode if detected), and emits a well-formed entry. The narrative body will be terse; edit the file afterward to add context if the log alone is not self-explanatory.
+The extractor always writes to stdout; the user is responsible for the correct redirect target.
 
-### From a Caveman-enabled Ralph session
+### From a Claude chat session (claude.ai)
 
-Same capture mechanism — the output of `script` includes Caveman's terse responses and the statusline badge. The extractor detects `[CAVEMAN:*]` tokens in the log and records the active mode in the `CAVEMAN:` field. No separate tooling required.
+No automatic capture exists for the web chat interface. At the end of any substantive session, the assistant emits a candidate entry in the format above; the user copies the block and appends it to the correct file:
+
+```bash
+cat >> docs/activity-logs/cross-epic.txt <<'BLOCK'
+<paste the block>
+BLOCK
+```
 
 ### From manual work (human at the terminal)
 
@@ -76,6 +88,14 @@ If a session produces an ADR, the entry body should name the ADR file. If a sess
 
 ## Retention
 
-Logs are committed to the repository. They are part of the deliverable and should survive any local cleanup.
+Logs (entries) are committed to the repository. They are part of the deliverable and should survive any local cleanup.
 
-File size rotation: if an EPIC log exceeds ~5 MB, rename to `E-01.part1.txt` and start `E-01.part2.txt`. E-01 is not expected to approach this limit (roughly 30-50 entries total).
+Raw session captures under `.ralph/logs/` are NOT committed (see `.gitignore`); they are per-developer and may contain transient context that should not live in the shared repository.
+
+File size rotation: if an EPIC log exceeds ~5 MB, rename to `E-01.part1.txt` and start `E-01.part2.txt`. No EPIC is expected to approach this limit (roughly 30-50 entries total per EPIC).
+
+## Related tooling
+
+- `scripts/run-ralph.sh` — the wrapper described above
+- `scripts/ralph-log-to-activity.sh` — the extractor (used standalone or by the wrapper)
+- `scripts/test-extractor.sh` — reproducible sanity test for the extractor; run after any change to extractor logic

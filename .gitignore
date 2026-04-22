@@ -34,7 +34,9 @@ build/
 .nx/
 
 # Ralph
-.ralph/logs/
 
 # Local-only
 *.local.*
+
+# Ralph Loop raw session captures — per-developer, not shared
+.ralph/
