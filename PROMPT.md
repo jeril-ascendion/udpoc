@@ -5,6 +5,7 @@ Context is fresh. Begin by reading these files, in this order:
   1. CLAUDE.md or CLAUDE.original.md (repo conventions, stack, non-negotiables)
   2. IMPLEMENTATION_PLAN.md (your task backlog)
   3. AGENTS.md (conventions learned by previous iterations)
+  4. docs/adr/README.md (architectural decisions on record; open specific ADRs when relevant to the task)
 
 Pick ONE unchecked and unblocked task from IMPLEMENTATION_PLAN.md, preferring the topmost task. The chosen task has an id like T-Exx-nn.
 
@@ -14,10 +15,11 @@ For that task:
   3. Write the minimum production code that makes the tests pass. Run them. They must pass.
   4. Refactor if needed. Tests must stay green at every step.
   5. Update IMPLEMENTATION_PLAN.md to mark the task done. If you discovered new sub-tasks, add them as unchecked items under the same EPIC.
-  6. If you discovered a convention worth teaching future iterations, append a single two-line entry to AGENTS.md with date, scope, and the convention. Do not prune old entries.
-  7. Stage and commit with a Conventional Commit message scoped to the task id. Example: feat(T-E04-02): BR-001 ID-expiry rule.
-  8. Push the branch to origin. Do not merge, do not open a PR, do not touch main.
-  9. Print EXIT_SIGNAL: TASK_DONE_<task-id> as the last line of your output.
+  6. If the task produced an architectural decision — a choice between real alternatives that has material architectural consequence and would be costly to reverse — create a new ADR by copying docs/adr/template.md to docs/adr/NNNN-short-slug.md where NNNN is one higher than the highest existing numbered ADR in docs/adr/. Fill in all MADR sections (Status: Accepted, Context, Decision, Consequences, Alternatives Considered). Update the index table in docs/adr/README.md. If no architectural decision was made, skip this step. Most tasks do not produce an ADR. Conventions and operational gotchas are NOT ADRs; they belong in AGENTS.md.
+  7. If you discovered a convention worth teaching future iterations, append a single two-line entry to AGENTS.md with date, scope, and the convention. Do not prune old entries.
+  8. Stage and commit with a Conventional Commit message scoped to the task id. Example: feat(T-E04-02): BR-001 ID-expiry rule. Include in the commit: the production code, tests, plan update, any ADR created, any AGENTS.md append.
+  9. Push the branch to origin. Do not merge, do not open a PR, do not touch main.
+ 10. Print EXIT_SIGNAL: TASK_DONE_<task-id> as the last line of your output.
 
 Hard constraints:
   - No production code without a failing test first. Ever.
@@ -30,3 +32,5 @@ Hard constraints:
   - Version-pin decisions must be explicit. When a task introduces or updates a tool, library, or config generator, the commit message body must list each chosen version and a one-line rationale. Example: "ESLint 9.11 (flat config, required for Node 20+), Prettier 3.3 (stable), Husky 9.1 (simplified hook syntax), commitlint 19 with @commitlint/config-conventional". Do not bury version choices in lockfiles alone; the commit message is the audit trail.
 
   - Before writing a Terraform `resource` block for any account-scoped resource (IAM OIDC identity providers, Route 53 public hosted zones, ACM certificates, IAM SAML providers, service-linked roles), first run the corresponding `aws <service> list-<resources>` command to confirm the resource does not already exist. If it exists, use a `data` source instead of a `resource` block. Creating a second instance fails with `EntityAlreadyExists`; silently taking over a shared pre-existing resource can break other teams' workloads. See AGENTS.md "AWS account blast-radius".
+
+  - Three documentation homes do not overlap and each thing routes to exactly one: architectural decisions with real alternatives go to docs/adr/ as numbered MADR files; conventions and gotchas discovered in practice go to AGENTS.md as two-line entries; delivery status goes to IMPLEMENTATION_PLAN.md. If unsure whether a thing is an ADR or an AGENTS entry, prefer AGENTS.md — promoting later is cheap, demoting is awkward.
