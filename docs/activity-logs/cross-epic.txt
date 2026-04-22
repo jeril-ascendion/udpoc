@@ -1,0 +1,55 @@
+================================================================================
+ENTRY: 2026-04-21T00:00:00+08:00
+SOURCE: manual
+TASK: T-E01-05 (retrospective summary)
+ACTOR: jeril + claude-opus-4.6 + claude-code-ralph
+BRANCH: multiple (feat/E-01/T-E01-05-*)
+COMMITS: eaf39f8, 7a9bc57, 82c81cc, 56bd3a1, b04bf39
+FILES TOUCHED: IMPLEMENTATION_PLAN.md, PROMPT.md, AGENTS.md, .github/workflows/deploy.yml, infra/iam-oidc-bootstrap/*, docs/session-notes/2026-04-21-session-handoff.md
+CAVEMAN: not yet adopted
+EXIT: session-end (handoff written)
+LOG_FILE: .ralph/logs/ (multiple iterations across the day)
+--------------------------------------------------------------------------------
+T-E01-05 closed after four Ralph attempts. Attempt 1 delivered only the workflow;
+attempt 2 launched from stale branch and repeated the error; attempt 3 landed
+cleanly after PROMPT rule 1 (start-from-main check) was added via PR #21. Manual
+terraform apply on infra/iam-oidc-bootstrap/ revealed that the account's GitHub
+OIDC provider already existed (created 2026-03-13 by another team). Module
+refactored to use data "aws_iam_openid_connect_provider" (PR #23). State rm'd
+the imported resource without destroying it in AWS. Role ARN verified via MD5
+match against the hardcoded value in deploy.yml. deploy-prod GitHub Actions
+environment configured with jeril-ascendion as required reviewer and main-only
+branch restriction. Smoke-tested: OIDC auth succeeded; plan failed on
+kms:DescribeKey and s3:GetBucketPolicy as expected (narrow-start permissions,
+per-module additions will follow). Session produced the "AWS account
+blast-radius" four-rule discipline in AGENTS.md and the pre-apply
+resource-existence check as a PROMPT hard constraint. Session handoff written
+to docs/session-notes/2026-04-21-session-handoff.md.
+================================================================================
+
+================================================================================
+ENTRY: 2026-04-22T00:00:00+08:00
+SOURCE: claude-chat
+TASK: governance (ADR framework, activity log framework)
+ACTOR: jeril + claude-opus-4.7
+BRANCH: feat/governance/adr-and-activity-logs (to be created)
+COMMITS: pending
+FILES TOUCHED: docs/adr/README.md, docs/adr/template.md, docs/adr/0001..0008-*.md, docs/activity-logs/README.md, docs/activity-logs/cross-epic.txt, scripts/ralph-log-to-activity.sh
+CAVEMAN: not yet adopted
+EXIT: session-end (scaffolding + Tier 1 ADRs delivered)
+LOG_FILE: n/a (claude.ai chat session)
+--------------------------------------------------------------------------------
+Introduced MADR-format ADRs at docs/adr/ with README index, blank template, and
+eight Tier 1 retrospective ADRs covering monorepo (0001), Flutter (0002),
+Node/Fastify (0003), React+Appian CE (0004), Terraform (0005), shared-prod
+account posture (0006), ap-southeast-1 (0007), and Terraform state backend
+(0008). Introduced per-EPIC activity logs at docs/activity-logs/ with README
+and ralph-log-to-activity.sh extractor that reads raw Ralph session logs and
+emits structured entries with Caveman-mode detection. Seeded this file with
+backfill for 2026-04-21 T-E01-05 session and this governance session.
+Tier 2 (delivery process) and Tier 3 (domain/architecture) ADRs deferred to a
+separate session. README AWS-account contradiction still to be fixed; Mermaid
+parse error in d01-02-journey-j1-id-expiring.mmd line 39 fix identified (wrap
+edge label in double quotes, use &le; entity for unicode less-than-or-equal).
+Cognito pre-apply recon still pending before T-E01-06 launch.
+================================================================================
